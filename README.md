@@ -16,7 +16,10 @@ A simple, but, powerful plugin that allows you to easily create multiple templat
 
 ```lua
 use {
-  'otavioschwanck/new-file-template.nvim', config = function() require('new-file-template').setup() end
+  'otavioschwanck/new-file-template.nvim', 
+  config = function() 
+    require('new-file-template').setup() 
+  end
 }
 
 ```
@@ -82,7 +85,8 @@ The `utils.find_entry` function receives an table with:
   - pattern: the pattern that triggers the template
   - content: a function that return the template string
 
-The `content` function always will receive the path to the file and the filename as parameters and ALWAYS should return a string.
+The content function will always receive the path to the file and the filename as parameters. It should ALWAYS return a string.
+
 If the content return `|cursor|` inside the string, it will position the cursor there.
 
 ## What we can do with it?
@@ -91,7 +95,7 @@ The content function can do anything.  Can ask the user for some input, can call
 
 ## Quickly creating a new template
 
-Here is an example of me creating a javascript template.
+Here is an example of me creating a JavaScript template.
 
 ![image 2](https://i.imgur.com/H1pUkXw.gif)
 
@@ -129,6 +133,6 @@ split(string, delimiter)
 
 ## Contributing
 
-This plugin is in early stages, so we need your help!
+This plugin is in its early stages, and we welcome your help! If you use some framework that is not in the defaults, please open a PR to contribute to the project. Any help is welcome.
 
 If you use some framework that is not on the defaults, please, open an PR to help the project! Any help is welcome.
