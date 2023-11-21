@@ -51,9 +51,9 @@ function M.on_buf_enter()
 		return
 	end
 
-	M.insert_template()
-
 	vim.b.template_inserted = 1
+
+	M.insert_template()
 end
 
 function M.open_user_config(filetype)
@@ -74,6 +74,10 @@ end
 
 function M.insert_text(template)
 	local current_buffer = vim.api.nvim_get_current_buf()
+
+	-- Substitua "\\n" por "\n" se presente
+	template = template:gsub("\\n", "\n")
+
 	local lines = vim.split(template, "\n")
 
 	local cursor_line, cursor_col
@@ -87,7 +91,25 @@ function M.insert_text(template)
 		end
 	end
 
-	vim.api.nvim_buf_set_lines(current_buffer, 0, -1, false, lines)
+	-- Ajuste para manter a formatação e indentação corretas
+	local formatted_lines = {}
+	local indentation = ""
+	for _, line in ipairs(lines) do
+		-- Adicione uma linha em branco antes de cada método, se não for o primeiro método
+		if line:match("^def") and #formatted_lines > 0 then
+			table.insert(formatted_lines, "")
+		end
+
+		-- Se a linha não está vazia, adicione a indentação
+		if line:match("%S") then
+			table.insert(formatted_lines, line)
+		else
+			-- Se a linha está vazia, apenas adicione uma linha em branco
+			table.insert(formatted_lines, "")
+		end
+	end
+
+	vim.api.nvim_buf_set_lines(current_buffer, 0, -1, false, formatted_lines)
 
 	if cursor_line and cursor_col then
 		vim.api.nvim_win_set_cursor(0, { cursor_line + 1, cursor_col })
@@ -96,8 +118,8 @@ function M.insert_text(template)
 	local local_state = state.getState()
 
 	if not local_state.disable_insert and cursor_line and cursor_col then
-		-- if cursor_col is the last col of the row
-		if cursor_col == vim.fn.strlen(lines[cursor_line + 1]) then
+		-- Se cursor_col for a última coluna da linha
+		if cursor_col == vim.fn.strlen(formatted_lines[cursor_line + 1]) then
 			vim.api.nvim_feedkeys("a", "n", true)
 		else
 			vim.api.nvim_feedkeys("i", "n", true)

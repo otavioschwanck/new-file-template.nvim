@@ -133,7 +133,12 @@ split(string, delimiter)
   - Split a string into an array
 
 
-## Contributing
+# Troubleshoot
+
+## empty lines are not being respected
+If for some reason, the template ignores your empty lines, just add \n on the previous line that will work
+
+# Contributing
 
 This plugin is in its early stages, and we welcome your help! If you use some framework that is not in the defaults, please open a PR to contribute to the project. Any help is welcome.
 
