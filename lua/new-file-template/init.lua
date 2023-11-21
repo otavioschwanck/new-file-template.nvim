@@ -45,7 +45,7 @@ function M.on_buf_enter()
 	end
 
 	local lines = vim.fn["getline"](1, "$")
-	if not (lines[1] == "") or #lines > 1 then
+	if not (lines[1] == "" and #lines == 1) then
 		return
 	end
 
