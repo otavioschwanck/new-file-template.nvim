@@ -75,6 +75,8 @@ return function(opts)
 end
 ```
 
+For a more sophisticated template, check the [ruby template](https://github.com/otavioschwanck/new-file-template.nvim/blob/master/lua/new-file-template/templates/ruby.lua)
+
 ## How it works?
 
 The template file always should return a function that:
