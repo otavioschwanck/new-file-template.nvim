@@ -15,11 +15,11 @@ function M.setup(opts)
 
 	if not opts.disable_autocmd then
 		vim.cmd([[
-      augroup AutoTemplate
-      autocmd!
-      autocmd BufNewFile * :lua require'new-file-template'.insert_template()
+      augroup NewFileTemplate
+        autocmd!
+        autocmd BufEnter * :lua require'new-file-template'.on_buf_enter()
       augroup END
-      ]])
+    ]])
 	end
 
 	vim.cmd([[
@@ -33,6 +33,27 @@ function M.setup(opts)
 		":lua require'new-file-template'.insert_template()<CR>",
 		{ noremap = true }
 	)
+end
+
+function M.on_buf_enter()
+	local bufnr = vim.fn.bufnr("%")
+
+	if vim.fn.buflisted(bufnr) == 0 or vim.fn.bufname(bufnr) == "" then
+		return
+	end
+
+	local lines = vim.fn["getline"](1, "$")
+	if #lines > 1 or not vim.fn.empty(lines[1]) then
+		return
+	end
+
+	if vim.b.template_inserted == 1 then
+		return
+	end
+
+	M.insert_template()
+
+	vim.b.template_inserted = 1
 end
 
 function M.open_user_config(filetype)
