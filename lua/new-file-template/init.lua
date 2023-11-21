@@ -70,7 +70,7 @@ end
 
 function M.insert_text(template)
 	local current_buffer = vim.api.nvim_get_current_buf()
-	template:gsub("\\n", "\n")
+	template = template:gsub("\\n", "\n")
 
 	local lines = vim.split(template, "\n")
 
