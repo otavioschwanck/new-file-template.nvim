@@ -23,6 +23,32 @@ function M.normalize_path(text)
 	return s
 end
 
+function M.snake_to_camel(str)
+	return (str:gsub("_(%w)", function(c)
+		return c:upper()
+	end))
+end
+
+function M.snake_to_class_camel(str)
+	return (str:gsub("_(%w)", function(c)
+		return c:upper()
+	end):gsub("^%w", string.upper))
+end
+
+function M.camel_to_snake(str)
+	return str:gsub("%u", function(c)
+		return "_" .. c:lower()
+	end):sub(2)
+end
+
+function M.class_camel_to_snake(str)
+	return str:gsub("%u", function(c)
+		return "_" .. c:lower()
+	end)
+		:sub(2)
+		:gsub("^%u", string.lower)
+end
+
 -- M.find_entry_with_disabled = function(template, full_path, relative_path, filename, disable_specific)
 M.find_entry = function(template, opts)
 	local disabled = opts.disable_specific or {}
@@ -90,6 +116,16 @@ M.pluralize = function(inputString)
 	else
 		return inputString .. "s"
 	end
+end
+
+function M.split(s, delimiter)
+	local result = {}
+
+	for match in (s .. delimiter):gmatch("(.-)" .. delimiter) do
+		table.insert(result, match)
+	end
+
+	return result
 end
 
 M.singularize = function(inputString)
