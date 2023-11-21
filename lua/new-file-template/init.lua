@@ -26,13 +26,9 @@ function M.setup(opts)
     command! -nargs=? -complete=filetype NewFileTemplate lua require'new-file-template'.open_user_config(<f-args>)
   ]])
 
-	-- set keymap to SPC y
-	vim.api.nvim_set_keymap(
-		"n",
-		"<leader>y",
-		":lua require'new-file-template'.insert_template()<CR>",
-		{ noremap = true }
-	)
+	vim.cmd([[
+    command! InsertTemplateFile lua require'new-file-template'.insert_template()
+  ]])
 end
 
 function M.on_buf_enter()
