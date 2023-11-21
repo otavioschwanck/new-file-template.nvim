@@ -32,6 +32,12 @@ function M.setup(opts)
 end
 
 function M.on_buf_enter()
+	if vim.b.template_verified == 1 then
+		return
+	end
+
+	vim.b.template_verified = 1
+
 	local bufnr = vim.fn.bufnr("%")
 
 	if vim.fn.buflisted(bufnr) == 0 or vim.fn.bufname(bufnr) == "" then
@@ -39,15 +45,9 @@ function M.on_buf_enter()
 	end
 
 	local lines = vim.fn["getline"](1, "$")
-	if #lines > 1 or not vim.fn.empty(lines[1]) then
+	if not (lines[1] == "") or #lines > 1 then
 		return
 	end
-
-	if vim.b.template_inserted == 1 then
-		return
-	end
-
-	vim.b.template_inserted = 1
 
 	M.insert_template()
 end
