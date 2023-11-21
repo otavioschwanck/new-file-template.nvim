@@ -22,13 +22,7 @@ return function(opts)
     { pattern = ".*", content = base_template },
   }
 
-  return utils.find_entry_with_disabled(
-    template,
-    opts.full_path,
-    opts.relative_path,
-    opts.filename,
-    opts.disable_specific
-  )
+  return utils.find_entry(template, opts)
 end]=]
 end
 
