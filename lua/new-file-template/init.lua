@@ -30,21 +30,7 @@ function M.setup(opts)
 	vim.cmd([[
     command! InsertTemplateFile lua require'new-file-template'.insert_template()
   ]])
-
-	vim.cmd([[
-		command! NFTDebug lua require'new-file-template'.debug()
-	]])
 end
-
-function M.debug()
-	local local_state = state.getState()
-
-	print("disable_insert: " .. tostring(local_state.disable_insert))
-	print("disable_autocmd: " .. vim.inspect(local_state.disable_autocmd))
-	print("disable_specific: " .. vim.inspect(local_state.disable_specific))
-	print("disable_filetype: " .. vim.inspect(local_state.disable_filetype))
-	print("template_directory: " .. local_state.template_directory)
-end 
 
 function M.on_buf_enter()
 	if vim.b.template_verified == 1 then
@@ -134,7 +120,8 @@ function M.insert_template()
 		disable_specific = state.getState().disable_specific[new_file_filetype] or {},
 	}
 
-	local user_template_loaded, template_for_filetype_user = pcall(require, "templates." .. new_file_filetype)
+	local template_path = state.getState().template_directory:gsub("/", ".") .. "."
+	local user_template_loaded, template_for_filetype_user = pcall(require, template_path .. new_file_filetype)
 
 	if user_template_loaded then
 		local template = template_for_filetype_user(opts_for_template)
