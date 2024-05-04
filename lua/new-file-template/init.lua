@@ -23,6 +23,8 @@ function M.setup(opts)
     ]])
 	end
 
+	print(state.getState())
+
 	vim.cmd([[
     command! -nargs=? -complete=filetype NewFileTemplate lua require'new-file-template'.open_user_config(<f-args>)
   ]])
@@ -59,7 +61,7 @@ function M.open_user_config(filetype)
 	end
 
 	local config_path = vim.fn.stdpath("config")
-	local templates_path = string.format("%s/lua/" .. state.template_directory, config_path)
+	local templates_path = string.format("%s/lua/" .. state.getState().template_directory, config_path)
 	local template_path = string.format("%s/%s.lua", templates_path, filetype)
 
 	if vim.fn.isdirectory(templates_path) == 0 then
