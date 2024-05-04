@@ -11,6 +11,7 @@ function M.setup(opts)
 		disable_autocmd = opts.disable_autocmd or {},
 		disable_specific = opts.disable_specific or {},
 		disable_filetype = opts.disable_filetype or {},
+		template_directory = opts.template_directory or "templates",
 	})
 
 	if not opts.disable_autocmd then
@@ -58,7 +59,7 @@ function M.open_user_config(filetype)
 	end
 
 	local config_path = vim.fn.stdpath("config")
-	local templates_path = string.format("%s/lua/templates", config_path)
+	local templates_path = string.format("%s/lua/" .. state.getState().template_directory, config_path)
 	local template_path = string.format("%s/%s.lua", templates_path, filetype)
 
 	if vim.fn.isdirectory(templates_path) == 0 then
@@ -119,7 +120,8 @@ function M.insert_template()
 		disable_specific = state.getState().disable_specific[new_file_filetype] or {},
 	}
 
-	local user_template_loaded, template_for_filetype_user = pcall(require, "templates." .. new_file_filetype)
+	local template_path = state.getState().template_directory:gsub("/", ".") .. "."
+	local user_template_loaded, template_for_filetype_user = pcall(require, template_path .. new_file_filetype)
 
 	if user_template_loaded then
 		local template = template_for_filetype_user(opts_for_template)

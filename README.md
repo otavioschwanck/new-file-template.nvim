@@ -32,6 +32,7 @@ use {
  disable_autocmd = false, -- Disable the autocmd that creates the template.  You can use manually by calling :InsertTemplateFile,
  disable_filetype = {}, -- Disable templates for a filetype (disable only default templates.  User templates will work).
  disable_specific = {}, -- Disable specific regexp for the default templates.  Example: { ruby = { ".*" } }.  To see the regexps, just look into lua/templates/{filetype}.lua for the regexp being used.
+ template_directory = "templates", -- Defaults to lua/templates as your template directory. Example: If your templates reside in a folder like `lua/custom/templates` change this to `custom/templates`.
 }
 ```
 # Creating new templates

@@ -3,6 +3,7 @@ local state = {
 	disable_autocmd = {},
 	disable_specific = {},
 	disable_filetype = {},
+	template_directory = "templates",
 }
 
 local function setState(newState)
