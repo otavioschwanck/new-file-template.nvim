@@ -11,6 +11,7 @@ function M.setup(opts)
 		disable_autocmd = opts.disable_autocmd or {},
 		disable_specific = opts.disable_specific or {},
 		disable_filetype = opts.disable_filetype or {},
+		template_directory = opts.template_directory or "templates",
 	})
 
 	if not opts.disable_autocmd then
@@ -58,7 +59,7 @@ function M.open_user_config(filetype)
 	end
 
 	local config_path = vim.fn.stdpath("config")
-	local templates_path = string.format("%s/lua/templates", config_path)
+	local templates_path = string.format("%s/lua/" .. state.template_directory, config_path)
 	local template_path = string.format("%s/%s.lua", templates_path, filetype)
 
 	if vim.fn.isdirectory(templates_path) == 0 then
