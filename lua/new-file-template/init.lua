@@ -11,6 +11,7 @@ function M.setup(opts)
 		disable_autocmd = opts.disable_autocmd or {},
 		disable_specific = opts.disable_specific or {},
 		disable_filetype = opts.disable_filetype or {},
+        suffix_as_filetype = opts.suffix_as_filetype or false,
 	})
 
 	if not opts.disable_autocmd then
@@ -55,6 +56,13 @@ end
 function M.open_user_config(filetype)
 	if not filetype or filetype == "" then
 		filetype = vim.bo.filetype
+
+        if state.getState().suffix_as_filetype then
+            local ft = vim.api.nvim_buf_get_name(0):match("^.+%.(.+)$")
+            if ft ~= nil then
+                filetype = ft
+            end
+        end
 	end
 
 	local config_path = vim.fn.stdpath("config")
@@ -112,6 +120,13 @@ function M.insert_template()
 	local path = vim.fn.fnamemodify(new_file_relative_path, ":h")
 	local new_file_filetype = vim.bo.filetype
 
+    if state.getState().suffix_as_filetype then
+        local ft = filename:match("^.+%.(.+)$")
+        if ft ~= nil then
+            new_file_filetype = ft
+        end
+    end
+
 	local opts_for_template = {
 		full_path = new_file_relative_path,
 		relative_path = path,
@@ -147,3 +162,4 @@ function M.insert_template()
 end
 
 return M
+

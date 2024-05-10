@@ -32,6 +32,7 @@ use {
  disable_autocmd = false, -- Disable the autocmd that creates the template.  You can use manually by calling :InsertTemplateFile,
  disable_filetype = {}, -- Disable templates for a filetype (disable only default templates.  User templates will work).
  disable_specific = {}, -- Disable specific regexp for the default templates.  Example: { ruby = { ".*" } }.  To see the regexps, just look into lua/templates/{filetype}.lua for the regexp being used.
+ suffix_as_filetype = false, -- use suffix of filename rather than vim.bo.filetype as filetype
 }
 ```
 # Creating new templates
@@ -143,3 +144,4 @@ If for some reason, the template ignores your empty lines, just add \n on the pr
 This plugin is in its early stages, and we welcome your help! If you use some framework that is not in the defaults, please open a PR to contribute to the project. Any help is welcome.
 
 If you use some framework that is not on the defaults, please, open an PR to help the project! Any help is welcome.
+
