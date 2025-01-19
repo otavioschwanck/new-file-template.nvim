@@ -78,7 +78,9 @@ end
 
 function M.insert_text(template)
 	local current_buffer = vim.api.nvim_get_current_buf()
-	template = template:gsub("\\n", "\n")
+	template = template:gsub("\\\\n", "ESCAPED_NEWLINE_CHAR") -- Replace escaped newline chars with a place holder
+	template = template:gsub("\\n", "\n") -- Replace real newline chars with the actual escape code
+	template = template:gsub("ESCAPED_NEWLINE_CHAR", "\\n") -- Replace place holders with not-escaped newline chars
 
 	local lines = vim.split(template, "\n")
 
